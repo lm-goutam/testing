@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	//model "github.com/golang/pkg/model"
+	model "github.com/lm-goutam/testing/pkg/model"
 
 	_ "github.com/go-sql-driver/mysql"
 )

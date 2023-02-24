@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
-	//model "github.com/golang/pkg/model"
+	mm "github.com/lm-goutam/testing/pkg/model"
 )
 
 func GetAllApp(w http.ResponseWriter, r *http.Request) {
@@ -16,9 +16,9 @@ func GetAllApp(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 	defer result.Close()
-	var app_id []model.Application
+	var app_id []mm.Application
 	for result.Next() {
-		var app model.Application
+		var app mm.Application
 		err := result.Scan(&app.Application_id, &app.ApplicationInfo)
 		if err != nil {
 			panic(err.Error())

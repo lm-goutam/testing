@@ -6,10 +6,9 @@ import (
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/lm-goutam/testing/pkg/handlers"
 
-	//handlers "github.com/golang/pkg/handlers"
 	"github.com/gorilla/mux"
+	handlers "github.com/lm-goutam/testing/pkg/handlers"
 	"github.com/rs/cors"
 )
 
