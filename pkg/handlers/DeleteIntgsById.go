@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
+	db "github.com/testing/pkg/database"
 )
 
 func DeleteIntgsById(w http.ResponseWriter, r *http.Request) {
