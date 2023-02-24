@@ -14,7 +14,8 @@ func GetAllOrg(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	result, err := db.Query("Select org_id,org_name FROM org")
 	if err != nil {
-		panic(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	defer result.Close()
 	var org_id []model.Organization
@@ -22,7 +23,8 @@ func GetAllOrg(w http.ResponseWriter, r *http.Request) {
 		var org model.Organization
 		err := result.Scan(&org.Organization_id, &org.OrganizationInfo)
 		if err != nil {
-			panic(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
 		}
 		org_id = append(org_id, org)
 

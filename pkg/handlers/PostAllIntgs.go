@@ -3,13 +3,11 @@ package handlers
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
+
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
 )
-
-
 
 // Posting sending the Data to database intgs table
 
@@ -19,11 +17,13 @@ func PostAllIntgs(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	stmt, err := db.Prepare("INSERT INTO `intgs`(`i_org`,`i_cms`,`i_status`,`i_app`,`app_url`,`comment`) VALUES(?,?,?,?,?,?)")
 	if err != nil {
-		panic(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		panic(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	keyVal := make(map[string]int)
 	json.Unmarshal(body, &keyVal)
@@ -38,7 +38,8 @@ func PostAllIntgs(w http.ResponseWriter, r *http.Request) {
 
 	_, err = stmt.Exec(i_org, i_cms, i_status, i_app, app_url, comment)
 	if err != nil {
-		panic(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	//fmt.Fprintf(w, "Congratulations! Data is added successfully.... \n")
 	resp := make(map[string]interface{})
@@ -46,7 +47,8 @@ func PostAllIntgs(w http.ResponseWriter, r *http.Request) {
 	resp["status"] = 200
 	jsonResp, err := json.Marshal(resp)
 	if err != nil {
-		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	w.Write(jsonResp)
 	return

@@ -13,7 +13,8 @@ func GetAllApp(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	result, err := db.Query("Select app_id,app_name FROM app")
 	if err != nil {
-		panic(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	defer result.Close()
 	var app_id []mm.Application
@@ -21,7 +22,8 @@ func GetAllApp(w http.ResponseWriter, r *http.Request) {
 		var app mm.Application
 		err := result.Scan(&app.Application_id, &app.ApplicationInfo)
 		if err != nil {
-			panic(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
 		}
 		app_id = append(app_id, app)
 

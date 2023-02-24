@@ -12,7 +12,8 @@ func DeleteIntgsById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	result, err := db.Query("DELETE FROM intgs WHERE i_id=?;", params["i_id"])
 	if err != nil {
-		panic(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	defer result.Close()
 }

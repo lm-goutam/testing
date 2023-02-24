@@ -33,5 +33,5 @@ func main() {
 	handler := c.Handler(router)
 
 	fmt.Println("Server running on port : 8010")
-	http.ListenAndServe(":8010", handler)
+	http.ListenAndServe(":8090", handler)
 }

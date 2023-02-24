@@ -16,7 +16,8 @@ func GetAllCms(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	result, err := db.Query("Select cms_id,cms_name FROM cms")
 	if err != nil {
-		panic(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	defer result.Close()
 	var cms_id []model.Cms
@@ -24,7 +25,8 @@ func GetAllCms(w http.ResponseWriter, r *http.Request) {
 		var cms model.Cms
 		err := result.Scan(&cms.Cms_id, &cms.CmsInfo)
 		if err != nil {
-			panic(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
 		}
 		cms_id = append(cms_id, cms)
 

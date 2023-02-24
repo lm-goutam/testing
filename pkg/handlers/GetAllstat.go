@@ -14,7 +14,8 @@ func GetAllStat(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	result, err := db.Query("Select stat_id,stat_name FROM status")
 	if err != nil {
-		panic(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	defer result.Close()
 	var stat_id []model.Status
@@ -22,7 +23,8 @@ func GetAllStat(w http.ResponseWriter, r *http.Request) {
 		var status model.Status
 		err := result.Scan(&status.Status_id, &status.StatusInfo)
 		if err != nil {
-			panic(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
 		}
 		stat_id = append(stat_id, status)
 
